@@ -1,4 +1,4 @@
-# Automatic detection of smart contract vulnerabilities based on machine learning methods
+#Automatic detection of smart contract vulnerabilities based on machine learning methods
 1. Put vulnerable contracts to dataset/sourcecode
 2. Run prepare_dataset/source_to_bytecode.py to convert these contracts to bytecode
 3. Run prepare_dataset/extract_feature_label.py to extract feature of contracts and label them to `contract_labled.csv`.
