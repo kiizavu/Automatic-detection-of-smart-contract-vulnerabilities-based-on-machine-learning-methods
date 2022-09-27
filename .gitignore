@@ -37,4 +37,4 @@ ehthumbs.db
 Thumbs.db
 
 # Ignore files related to API keys
-.env
+.venv
