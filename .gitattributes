@@ -1,4 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-dataset/* linguist-vendored
+*.sol linguist-vendored
