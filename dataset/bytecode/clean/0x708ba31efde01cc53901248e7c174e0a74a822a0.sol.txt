@@ -1,0 +1,16 @@
+
+======= dataset/sourcecode/clean/0x708ba31efde01cc53901248e7c174e0a74a822a0.sol:BasementOperationRealm =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0x708ba31efde01cc53901248e7c174e0a74a822a0.sol:IERC20 =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0x708ba31efde01cc53901248e7c174e0a74a822a0.sol:Ownable =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0x708ba31efde01cc53901248e7c174e0a74a822a0.sol:SafeMath =======
+Binary of the runtime part: 
+6080604052600080fd00a165627a7a723058203fc4360fc03934a061eeb814c2bced73a656481296ddd6f3fdb77967a3d1039f0029

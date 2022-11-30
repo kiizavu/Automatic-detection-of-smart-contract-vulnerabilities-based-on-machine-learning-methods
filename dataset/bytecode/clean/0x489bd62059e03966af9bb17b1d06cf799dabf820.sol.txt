@@ -1,0 +1,16 @@
+
+======= dataset/sourcecode/clean/0x489bd62059e03966af9bb17b1d06cf799dabf820.sol:GlobalBlockchainBank =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0x489bd62059e03966af9bb17b1d06cf799dabf820.sol:IERC20 =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0x489bd62059e03966af9bb17b1d06cf799dabf820.sol:Ownable =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0x489bd62059e03966af9bb17b1d06cf799dabf820.sol:SafeMath =======
+Binary of the runtime part: 
+6080604052600080fd00a165627a7a72305820beca5eaf53e67bbb5d3e7242ff08ecb5f39e298a8a417d74697016c9d3343e100029

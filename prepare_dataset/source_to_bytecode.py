@@ -35,7 +35,7 @@ def getVersionPragma(filename):                     # param la path cua contract
     file = open(filename, 'r')
     data = file.readlines()
     for line in data:                               # duyet tung dong trong contract do
-        if 'pragma' in line:                        # neu dong do chua chu "pragma"
+        if 'pragma' in line and 'solidity' in line:                        # neu dong do chua chu "pragma"
             temp = line.split()                     # chuyen dong do thanh list ['pragma', 'solidity', '^0.4.19;']
             if len(temp) == 3 and temp[2][0].isnumeric() == True:       # ['pragma', 'solidity', '0.4.19;']
                 return temp[2][0:-1]
@@ -68,7 +68,7 @@ for vuln in vulns:
 
             cmd = 'solc-select use ' + contract_version                             # dung lenh "solc-select use" de chuyen version cho dung voi contract
             os.system(cmd)
-            cmd1 = 'solc --bin ' + contract_source_path + '>' + contract_byte_path  # xuat ra bytecode cua contract roi ghi vao file
+            cmd1 = 'solc --bin-runtime ' + contract_source_path + '>' + contract_byte_path  # xuat ra bytecode cua contract roi ghi vao file
             os.system(cmd1)
             if os.path.getsize(contract_byte_path) == 0:                            # neu co loi luc xuat bytecode thi size cua file ghi ra la 0
                 os.remove(contract_byte_path)                                       # xoa file do di

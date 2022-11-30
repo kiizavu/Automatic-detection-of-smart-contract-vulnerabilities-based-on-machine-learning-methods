@@ -1,0 +1,16 @@
+
+======= dataset/sourcecode/clean/0xa9f5ccdd11178ac90746ad76153bb9d0915edd9f.sol:CyberNerve =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0xa9f5ccdd11178ac90746ad76153bb9d0915edd9f.sol:IERC20 =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0xa9f5ccdd11178ac90746ad76153bb9d0915edd9f.sol:Ownable =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0xa9f5ccdd11178ac90746ad76153bb9d0915edd9f.sol:SafeMath =======
+Binary of the runtime part: 
+6080604052600080fd00a165627a7a7230582012bf42fe6a899fcaffb1485ae9e48046e5e35659d22237ab9a0d79af09a37d020029

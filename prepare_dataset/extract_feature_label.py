@@ -4,7 +4,11 @@ import os
 import collections
 from nltk import ngrams 
 import csv
-import itertools
+import re
+
+#ngram = 1
+label = {'clean': 0, 'arithmetic': 1, 'reentrancy': 2, 'time_manipulation': 3, 'TOD': 4}
+regex = r"Binary of the runtime part: \s(.*)"
 
 ARITHMETIC_OP = ['ADD', 'MUL', 'SUB', 'DIV', 'SDIV', 'SMOD', 'MOD', 'ADDMOD', 'MULMOD', 'EXP']
 CONSTANT1 = ['BLOCKHASH', 'TIMESTAMP', 'NUMBER', 'DIFFICULTY', 'GASLIMIT', 'COINBASE']
@@ -52,16 +56,11 @@ for vuln in vulns:
     contracts_dict = {}                                                 # luu dia chi, opcode - {address: opcode}
     for contract in contracts:
         with open(os.path.join(vuln_dir_byte, contract), "r") as f:     # doc tung contract
-            content = [s.strip() for s in f.readlines()]                # luu tung dong doc dc vao list, moi dong la 1 phan tu trong list
+            content = f.read()
 
-        byte_code_num = content.count('Binary:')                        # dem so chuoi 'Binary:' trong list
-        while byte_code_num > 0:
-            pos = content.index('Binary:')                              # vi tri dau tien cua 'Binary:' trong list
-            for _ in range(3):
-                content.pop(pos - 2)                                    # bo dong ko lien quan, xem file bytecode se hieu
-            byte_code_num -= 1
+        bytecode = re.findall(regex, content, re.MULTILINE)
         
-        bincontent = ''.join(content)                                   # noi tat ca bytecode trong contract
+        bincontent = ''.join(bytecode)                                   # noi tat ca bytecode trong contract
         try:
             rawbytes = binascii.unhexlify(bincontent)                   # chuyen sang dang hex, neu loi thi bo qua, vi co the co loi khi chuyen tu source code sang bytecode
         except:
@@ -78,32 +77,42 @@ for vuln in vulns:
     dataset[vuln] = contracts_dict                                      # them vao dict dataset {vuln1: {address1: opcode1, address2: opcode2, ...}, vuln2: {address1: opcode1, address2: opcode2, ...}, ...}
 
 
-fieldnames = ['Address']                       # ten cot trong file csv 
-fieldnames.extend(dataset.keys())              # them ten cac lo hong vao cot de gan nhan
-rows = []                                      # moi hang la 1 contract cung tan suat xuat hien cac bigram cua no
-bigramPattern = [p for p in itertools.product(all_opcode, repeat=2)]
-fieldnames.extend(bigramPattern)
+for i in range(1, 11):
+    for version_label in range(2):                     # version 0: [0,1,0,0,0] version 1:[1]
+        fieldnames = ['Address']                       # ten cot trong file csv
+        if version_label:
+            fieldnames.append('Label')
+        else:
+            fieldnames.extend(dataset.keys())          # them ten cac lo hong vao cot de gan nhan
+        rows = []                                      # moi hang la 1 contract cung tan suat xuat hien cac bigram cua no
+        # bigramPattern = [p for p in itertools.product(all_opcode, repeat=ngram)]
+        # fieldnames.extend(bigramPattern)
 
-# feature extraction bằng n-gram 
-for vuln in dataset.keys():                         # lay ten lo hong
-    contracts_addr = dataset[vuln].keys()           # lay cac dia chia chi contract
-    for addr in contracts_addr:                     # duyet tung dia chi
-        tmp = ''.join(dataset[vuln][addr])          # bien chua opcode dang string
-        n_grams = ngrams(tmp.split(), 2)            # trich xuat bigram
-        count_bigram = collections.Counter(n_grams) # dem tan suat xuat hien
+        # feature extraction bằng n-gram 
+        for vuln in dataset.keys():                         # lay ten lo hong
+            contracts_addr = dataset[vuln].keys()           # lay cac dia chia chi contract
+            for addr in contracts_addr:                     # duyet tung dia chi
+                tmp = ''.join(dataset[vuln][addr])          # bien chua opcode dang string
+                n_grams = ngrams(tmp.split(), i)            # trich xuat bigram
+                count_bigram = collections.Counter(n_grams) # dem tan suat xuat hien
 
-        row = {}                                    # chua tung contract va bigram cua no, la 1 phan tu trong rows, tuong ung 1 hang trong csv
-        row.update({"Address": addr[:-8]})          # lay dia chi contract roi them vao cot Address
+                row = {}                                    # chua tung contract va bigram cua no, la 1 phan tu trong rows, tuong ung 1 hang trong csv
+                row.update({"Address": addr[:-8]})          # lay dia chi contract roi them vao cot Address
 
-        for grams in count_bigram:
-            row.update({grams: count_bigram[grams]})# cap nhat grams, tan suat xuat hien cua bigram 
+                for grams in count_bigram:
+                    if grams not in fieldnames:
+                        fieldnames.append(grams)
+                    row.update({grams: count_bigram[grams]})# cap nhat grams, tan suat xuat hien cua bigram 
 
-        row.update({vuln: '1'})                     # gan nhan cho contract
-        rows.append(row)
+                if version_label:
+                    row.update({'Label': label[vuln]})
+                else:
+                    row.update({vuln: '1'})                     # gan nhan cho contract
+                rows.append(row)
 
-# ghi vao file csv
-with open('contract_labled.csv' , 'w', newline='') as f:
-    writer = csv.DictWriter(f, fieldnames = fieldnames)
-    writer.writeheader()        # ghi fieldnames
-    writer.writerows(rows)      # ghi tung phan tu cua list rows vao hang trong csv
+        # ghi vao file csv
+        with open(f"csv\contract_labled_{version_label}_{i}-gram.csv" , 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames = fieldnames)
+            writer.writeheader()        # ghi fieldnames
+            writer.writerows(rows)      # ghi tung phan tu cua list rows vao hang trong csv
 

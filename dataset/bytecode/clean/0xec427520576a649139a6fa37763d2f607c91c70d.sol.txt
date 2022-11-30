@@ -1,0 +1,16 @@
+
+======= dataset/sourcecode/clean/0xec427520576a649139a6fa37763d2f607c91c70d.sol:IERC20 =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0xec427520576a649139a6fa37763d2f607c91c70d.sol:LifePasswordAI =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0xec427520576a649139a6fa37763d2f607c91c70d.sol:Ownable =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0xec427520576a649139a6fa37763d2f607c91c70d.sol:SafeMath =======
+Binary of the runtime part: 
+6080604052600080fd00a165627a7a723058207f23a692450077afad9d8d2af4f32c7548547cd15535d9e09e009a3af4704c3a0029

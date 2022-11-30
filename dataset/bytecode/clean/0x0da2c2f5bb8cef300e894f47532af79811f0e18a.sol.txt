@@ -1,0 +1,16 @@
+
+======= dataset/sourcecode/clean/0x0da2c2f5bb8cef300e894f47532af79811f0e18a.sol:DaEXCoin =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0x0da2c2f5bb8cef300e894f47532af79811f0e18a.sol:IERC20 =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0x0da2c2f5bb8cef300e894f47532af79811f0e18a.sol:Ownable =======
+Binary of the runtime part: 
+
+
+======= dataset/sourcecode/clean/0x0da2c2f5bb8cef300e894f47532af79811f0e18a.sol:SafeMath =======
+Binary of the runtime part: 
+6080604052600080fd00a165627a7a72305820050bc78fd16de2f9a2e539a395098dbdbbb13a658b44ae581dcd55feb70567a20029
