@@ -19,6 +19,9 @@ def save_score(y_test, y_pred, time_end, time_start):
     score['train time'] = time_end - time_start
     return score
 
+# có cân bằng dữ liệu ko
+is_Smote = False
+
 result = dict()
 for i in range(1, 11):
     dataset = dict()
@@ -26,8 +29,7 @@ for i in range(1, 11):
     for j in range(2):
         data_file=f"csv/contract_labled_{j}_{i}-gram.csv"
         df = pd.read_csv(data_file)
-        df = df.fillna(0)
-        data = df.values
+        df = df.fillna(0)\
 
         X = df.iloc[:,6:].values
         if j == 0:
@@ -37,9 +39,11 @@ for i in range(1, 11):
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0, test_size=0.2)
 
-        sm = SMOTE(random_state = 2)
-        X_train_res, y_train_res = sm.fit_resample(X_train, y_train)
-        
+        if is_Smote:
+            sm = SMOTE(random_state = 2)
+            X_train_res, y_train_res = sm.fit_resample(X_train, y_train)
+        else:
+            X_train_res, y_train_res = X_train, y_train
         algorithms = dict()
 
         #RF
@@ -50,7 +54,7 @@ for i in range(1, 11):
         y_pred_rf = rf.predict(X_test)
 
         #KNN
-        knn = neighbors.KNeighborsClassifier(n_neighbors = 7, p = 2,metric='euclidean')
+        knn = OneVsRestClassifier(neighbors.KNeighborsClassifier(n_neighbors = 7, p = 2,metric='euclidean'))
         if j == 1:
             y_train_res_knn = y_train_res.values.flatten()
             knn_start = time.time()
@@ -76,28 +80,6 @@ for i in range(1, 11):
         xgb_end = time.time()
         y_pred_xgb = xg.predict(X_test)
 
-        # print(f"---------------------------------------{j}---------------------------------------")
-        # print(f"{'Algorithms':<25} {'accuracy_score':<25} Training time")
-        # print(f"{'Random Forest':<25} {accuracy_score(y_test,y_pred_rf):<25} {rf_end - rf_start}")
-
-        # print(f"{'KNN':<25} {accuracy_score(y_test,y_pred_knn):<25} {knn_end - knn_start}")
-
-        # print(f"{'AdaBoost':<25} {accuracy_score(y_test,y_pred_ada):<25} {ada_end - ada_start}")
-
-        # print(f"{'XGBoost':<25} {accuracy_score(y_test,y_pred_xgb):<25} {xgb_end - xgb_start}")
-
-        # print('\n\n\nRandom Forest:', accuracy_score(y_test,y_pred_rf))
-        # print(classification_report(y_test, y_pred_rf, zero_division=1))
-
-        # print('\n\n\nKNN:', accuracy_score(y_test,y_pred_knn))
-        # print(classification_report(y_test, y_pred_knn, zero_division=1))
-
-        # print('\n\n\nAdaBoost:', accuracy_score(y_test,y_pred_ada))
-        # print(classification_report(y_test, y_pred_ada, zero_division=1))
-
-        # print('\n\n\nXGBoost:', accuracy_score(y_test,y_pred_xgb))
-        # print(classification_report(y_test, y_pred_xgb, zero_division=1))
-
         algorithms['Random Forest'] = save_score(y_test, y_pred_rf, rf_end, rf_start)
         algorithms['KNN'] = save_score(y_test, y_pred_knn, knn_end, knn_start)
         algorithms['AdaBoost'] = save_score(y_test, y_pred_ada, ada_end, ada_start)
@@ -107,5 +89,10 @@ for i in range(1, 11):
         
     result[f'{i}-gram'] = dataset
 
-with open("Training result.json", "w") as outfile:
+if is_Smote:
+    result_file_name = "Training result Smote.json"
+else:
+    result_file_name = "Training result no Smote.json"
+
+with open(result_file_name, "w") as outfile:
     json.dump(result, outfile)
