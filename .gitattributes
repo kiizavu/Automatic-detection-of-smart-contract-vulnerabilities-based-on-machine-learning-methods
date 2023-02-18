@@ -2,3 +2,4 @@
 * text=auto
 
 *.sol linguist-detectable=false
+*.ipynb linguist-detectable=false
