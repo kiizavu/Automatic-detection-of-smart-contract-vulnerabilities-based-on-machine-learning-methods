@@ -10,6 +10,6 @@ In this project, we apply KNN, AdaBoost, XGBoost, RandomForest, DNN to detect an
 6. Run [main.py](main.py) to detect vulnerable in specific contract.
 
 ## Conclusion
-- If you need high performance and don't worry about training time, you should use the AdaBoost model with decimal label.
-- If you need a model has short training time and don't worry about performance, you should use the KNN model with binary label.
-- If you need a model which has both high performance and short training time, we suggest to use the Random Forest model with decimal label.
+> If you need high performance and don't worry about training time, you should use the **AdaBoost model** with __decimal label__.
+> If you need a model has short training time and don't worry about performance, you should use the **KNN model** with __binary label__.
+> If you need a model which has both high performance and short training time, we suggest to use the **Random Forest model** with __decimal label__.
